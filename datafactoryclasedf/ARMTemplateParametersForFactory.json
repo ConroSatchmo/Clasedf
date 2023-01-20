@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "datafactoryclasedf"
+		},
+		"StorageClaseDF_accountKey": {
+			"value": ""
+		},
+		"StorageClaseDF_properties_typeProperties_url": {
+			"value": "https://clasedf.dfs.core.windows.net/"
+		}
+	}
+}
