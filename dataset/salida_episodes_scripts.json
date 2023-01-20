@@ -14,7 +14,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "episodes_scripts.csv",
-				"folderPath": "Simpson/episodes_scripts",
+				"folderPath": "Simpsons/episodes_scripts",
 				"fileSystem": "clasedf"
 			},
 			"columnDelimiter": ",",
