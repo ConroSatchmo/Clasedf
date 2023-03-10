@@ -2,7 +2,7 @@
 	"name": "simpsons",
 	"properties": {
 		"folder": {
-			"name": "Simpsons_flow"
+			"name": "ClaseDF/Simpsons_flow"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
