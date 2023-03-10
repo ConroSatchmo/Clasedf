@@ -1,5 +1,5 @@
 {
-	"name": "Salidaepisodescripts",
+	"name": "salidalocationscripts",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "storageclaseDF2",
@@ -13,29 +13,12 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "episodescripts/episodescripts.parquet",
+				"fileName": "locationscripts/locationscripts",
 				"folderPath": "Simpsons",
 				"fileSystem": "clasedf"
 			},
 			"compressionCodec": "snappy"
 		},
-		"schema": [
-			{
-				"name": "movieId",
-				"type": "UTF8"
-			},
-			{
-				"name": "title",
-				"type": "UTF8"
-			},
-			{
-				"name": "genres",
-				"type": "UTF8"
-			},
-			{
-				"name": "Year",
-				"type": "INT32"
-			}
-		]
+		"schema": []
 	}
 }

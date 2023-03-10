@@ -29,6 +29,10 @@
 					"name": "entradalocations2"
 				},
 				{
+					"dataset": {
+						"referenceName": "entrada_scripts2",
+						"type": "DatasetReference"
+					},
 					"name": "entradascripts2"
 				}
 			],
@@ -42,10 +46,17 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "SalidaJoin",
+						"referenceName": "Salidaepisodescripts",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "salidaepisodescripts"
+				},
+				{
+					"dataset": {
+						"referenceName": "salidalocationscripts",
+						"type": "DatasetReference"
+					},
+					"name": "salidalocationscripts"
 				}
 			],
 			"transformations": [
@@ -68,7 +79,7 @@
 					"name": "episodesscripts"
 				},
 				{
-					"name": "episodescriptslocations"
+					"name": "locationscripts"
 				}
 			],
 			"scriptLines": [
@@ -121,10 +132,11 @@
 				"          raw_location_text as string,",
 				"          spoken_words as string,",
 				"          normalized_text as string,",
-				"          word_count as integer",
+				"          word_count as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> entradascripts2",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> entradascripts2",
 				"entradacharacters2 select(mapColumn(",
 				"          id,",
 				"          name = normalized_name,",
@@ -175,11 +187,11 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> episodesscripts",
-				"episodesscripts, selectlocations join(location_id == selectlocations@id,",
+				"selectlocations, selectscripts join(selectlocations@id == location_id,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> episodescriptslocations",
+				"     broadcast: 'auto')~> locationscripts",
 				"filtrogeneronull sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -188,7 +200,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> salidacharacters",
-				"episodescriptslocations sink(allowSchemaDrift: true,",
+				"episodesscripts sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          movieId as string,",
@@ -201,7 +213,15 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> salidaepisodescripts",
+				"locationscripts sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> salidalocationscripts"
 			]
 		}
 	}
