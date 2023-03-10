@@ -29,10 +29,6 @@
 					"name": "entradalocations2"
 				},
 				{
-					"dataset": {
-						"referenceName": "entrada_scripts",
-						"type": "DatasetReference"
-					},
 					"name": "entradascripts2"
 				}
 			],
@@ -128,8 +124,7 @@
 				"          word_count as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> entradascripts2",
+				"     validateSchema: false) ~> entradascripts2",
 				"entradacharacters2 select(mapColumn(",
 				"          id,",
 				"          name = normalized_name,",
