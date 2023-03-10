@@ -1,0 +1,41 @@
+{
+	"name": "Salida_Characters",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ClaseDF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Simpsons"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Characters.parquet",
+				"folderPath": "Simpsons/Characters",
+				"fileSystem": "clasedf"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "movieId",
+				"type": "INT32"
+			},
+			{
+				"name": "title",
+				"type": "UTF8"
+			},
+			{
+				"name": "genres",
+				"type": "UTF8"
+			},
+			{
+				"name": "Year",
+				"type": "INT32"
+			}
+		]
+	}
+}

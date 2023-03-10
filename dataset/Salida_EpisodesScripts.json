@@ -1,0 +1,41 @@
+{
+	"name": "Salida_EpisodesScripts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ClaseDF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Simpsons"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "EpisodesScripts.parquet",
+				"folderPath": "Simpsons/EpisodesScripts",
+				"fileSystem": "clasedf"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "movieId",
+				"type": "INT32"
+			},
+			{
+				"name": "title",
+				"type": "UTF8"
+			},
+			{
+				"name": "genres",
+				"type": "UTF8"
+			},
+			{
+				"name": "Year",
+				"type": "INT32"
+			}
+		]
+	}
+}

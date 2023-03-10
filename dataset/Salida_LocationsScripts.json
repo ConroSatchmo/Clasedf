@@ -1,0 +1,24 @@
+{
+	"name": "Salida_LocationsScripts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ClaseDF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Simpsons"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "LocationsScripts.parquet",
+				"folderPath": "Simpsons/LocationsScripts",
+				"fileSystem": "clasedf"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
