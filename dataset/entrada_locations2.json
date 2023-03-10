@@ -1,19 +1,19 @@
 {
-	"name": "entrada_peliculas_2",
+	"name": "entrada_locations2",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "storageclaseDF2",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "ClaseDF2/datasets_peliculas"
+			"name": "ClaseDF2/datasets_simpsons"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "movies.csv",
+				"fileName": "simpsons_locations.csv",
 				"folderPath": "Origen",
 				"fileSystem": "clasedf"
 			},
@@ -24,15 +24,15 @@
 		},
 		"schema": [
 			{
-				"name": "movieId",
+				"name": "id",
 				"type": "String"
 			},
 			{
-				"name": "title",
+				"name": "name",
 				"type": "String"
 			},
 			{
-				"name": "genres",
+				"name": "normalized_name",
 				"type": "String"
 			}
 		]

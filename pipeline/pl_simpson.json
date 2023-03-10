@@ -1,9 +1,9 @@
 {
-	"name": "pl_peliculas",
+	"name": "pl_simpson",
 	"properties": {
 		"activities": [
 			{
-				"name": "peliculas_flow",
+				"name": "simpsons_flow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "peliculas_flow",
+						"referenceName": "simpsons_flow",
 						"type": "DataFlowReference"
 					},
 					"compute": {

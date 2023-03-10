@@ -1,39 +1,40 @@
 {
-	"name": "entrada_peliculas_2",
+	"name": "SalidaJoin",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "storageclaseDF2",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "ClaseDF2/datasets_peliculas"
+			"name": "ClaseDF2/datasets_simpsons"
 		},
 		"annotations": [],
-		"type": "DelimitedText",
+		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "movies.csv",
-				"folderPath": "Origen",
+				"fileName": "Join/Join.parquet",
+				"folderPath": "Simpsons",
 				"fileSystem": "clasedf"
 			},
-			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"compressionCodec": "snappy"
 		},
 		"schema": [
 			{
 				"name": "movieId",
-				"type": "String"
+				"type": "UTF8"
 			},
 			{
 				"name": "title",
-				"type": "String"
+				"type": "UTF8"
 			},
 			{
 				"name": "genres",
-				"type": "String"
+				"type": "UTF8"
+			},
+			{
+				"name": "Year",
+				"type": "INT32"
 			}
 		]
 	}
