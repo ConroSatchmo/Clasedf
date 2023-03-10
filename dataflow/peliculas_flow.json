@@ -1,0 +1,54 @@
+{
+	"name": "peliculas_flow",
+	"properties": {
+		"folder": {
+			"name": "ClaseDF2/Peliculas"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "entrada_peliculas_2",
+						"type": "DatasetReference"
+					},
+					"name": "peliculas"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "salida_peliculas_2",
+						"type": "DatasetReference"
+					},
+					"name": "salidaPeliculas2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedYears"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          movieId as string,",
+				"          title as string,",
+				"          genres as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> peliculas",
+				"peliculas derive(Year = toInteger(trim(right(title,6),'()')),",
+				"          title = toString(left(title, length(title)-6))) ~> derivedYears",
+				"derivedYears sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> salidaPeliculas2"
+			]
+		}
+	}
+}

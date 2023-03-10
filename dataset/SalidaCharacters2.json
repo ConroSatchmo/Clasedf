@@ -1,0 +1,25 @@
+{
+	"name": "SalidaCharacters2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "storageclaseDF2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ClaseDF2/datasets_simpsons"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Characters/characters.parquet",
+				"folderPath": "Simpsons",
+				"fileSystem": "clasedf"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
