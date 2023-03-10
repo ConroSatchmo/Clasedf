@@ -8,7 +8,13 @@
 		"storageclaseDF2_accountKey": {
 			"value": ""
 		},
+		"ClaseDF_accountKey": {
+			"value": ""
+		},
 		"storageclaseDF2_properties_typeProperties_url": {
+			"value": "https://clasedf.dfs.core.windows.net/"
+		},
+		"ClaseDF_properties_typeProperties_url": {
 			"value": "https://clasedf.dfs.core.windows.net/"
 		}
 	}

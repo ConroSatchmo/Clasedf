@@ -11,7 +11,15 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"accountKey\"de \"storageclaseDF2\""
 		},
+		"ClaseDF_accountKey": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"accountKey\"de \"ClaseDF\""
+		},
 		"storageclaseDF2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://clasedf.dfs.core.windows.net/"
+		},
+		"ClaseDF_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://clasedf.dfs.core.windows.net/"
 		},
@@ -45,8 +53,14 @@
 					"storageclaseDF2_accountKey": {
 						"value": "[parameters('storageclaseDF2_accountKey')]"
 					},
+					"ClaseDF_accountKey": {
+						"value": "[parameters('ClaseDF_accountKey')]"
+					},
 					"storageclaseDF2_properties_typeProperties_url": {
 						"value": "[parameters('storageclaseDF2_properties_typeProperties_url')]"
+					},
+					"ClaseDF_properties_typeProperties_url": {
+						"value": "[parameters('ClaseDF_properties_typeProperties_url')]"
 					}
 				}
 			},

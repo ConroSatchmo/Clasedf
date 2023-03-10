@@ -11,7 +11,15 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"accountKey\"de \"storageclaseDF2\""
 		},
+		"ClaseDF_accountKey": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"accountKey\"de \"ClaseDF\""
+		},
 		"storageclaseDF2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://clasedf.dfs.core.windows.net/"
+		},
+		"ClaseDF_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://clasedf.dfs.core.windows.net/"
 		}
@@ -36,6 +44,894 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ClaseDF')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ClaseDF_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ClaseDF_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/peliculasentrada')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Peliculas"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "movies.csv",
+						"folderPath": "Origen",
+						"fileSystem": "clasedf"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "movieId",
+						"type": "String"
+					},
+					{
+						"name": "title",
+						"type": "String"
+					},
+					{
+						"name": "genres",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/salida_peliculas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Peliculas"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "peliculas.parquet",
+						"folderPath": "Peliculas",
+						"fileSystem": "clasedf"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Entrada_Characters')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Simpsons"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "simpsons_characters.csv",
+						"folderPath": "Origen",
+						"fileSystem": "clasedf"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "normalized_name",
+						"type": "String"
+					},
+					{
+						"name": "gender",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Entrada_Episodes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Simpsons"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "simpsons_episodes.csv",
+						"folderPath": "Origen",
+						"fileSystem": "clasedf"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "image_url",
+						"type": "String"
+					},
+					{
+						"name": "imdb_rating",
+						"type": "String"
+					},
+					{
+						"name": "imdb_votes",
+						"type": "String"
+					},
+					{
+						"name": "number_in_season",
+						"type": "String"
+					},
+					{
+						"name": "number_in_series",
+						"type": "String"
+					},
+					{
+						"name": "original_air_date",
+						"type": "String"
+					},
+					{
+						"name": "original_air_year",
+						"type": "String"
+					},
+					{
+						"name": "production_code",
+						"type": "String"
+					},
+					{
+						"name": "season",
+						"type": "String"
+					},
+					{
+						"name": "title",
+						"type": "String"
+					},
+					{
+						"name": "us_viewers_in_millions",
+						"type": "String"
+					},
+					{
+						"name": "video_url",
+						"type": "String"
+					},
+					{
+						"name": "views",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Entrada_Locations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Simpsons"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "simpsons_locations.csv",
+						"folderPath": "Origen",
+						"fileSystem": "clasedf"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "normalized_name",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Entrada_Scripts')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Simpsons"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "simpsons_script_lines.csv",
+						"folderPath": "Origen",
+						"fileSystem": "clasedf"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "episode_id",
+						"type": "String"
+					},
+					{
+						"name": "number",
+						"type": "String"
+					},
+					{
+						"name": "raw_text",
+						"type": "String"
+					},
+					{
+						"name": "timestamp_in_ms",
+						"type": "String"
+					},
+					{
+						"name": "speaking_line",
+						"type": "String"
+					},
+					{
+						"name": "character_id",
+						"type": "String"
+					},
+					{
+						"name": "location_id",
+						"type": "String"
+					},
+					{
+						"name": "raw_character_text",
+						"type": "String"
+					},
+					{
+						"name": "raw_location_text",
+						"type": "String"
+					},
+					{
+						"name": "spoken_words",
+						"type": "String"
+					},
+					{
+						"name": "normalized_text",
+						"type": "String"
+					},
+					{
+						"name": "word_count",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Salida_Characters')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Simpsons"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Characters.parquet",
+						"folderPath": "Simpsons/Characters",
+						"fileSystem": "clasedf"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "movieId",
+						"type": "INT32"
+					},
+					{
+						"name": "title",
+						"type": "UTF8"
+					},
+					{
+						"name": "genres",
+						"type": "UTF8"
+					},
+					{
+						"name": "Year",
+						"type": "INT32"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Salida_EpisodesScripts')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Simpsons"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "EpisodesScripts.parquet",
+						"folderPath": "Simpsons/EpisodesScripts",
+						"fileSystem": "clasedf"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "movieId",
+						"type": "INT32"
+					},
+					{
+						"name": "title",
+						"type": "UTF8"
+					},
+					{
+						"name": "genres",
+						"type": "UTF8"
+					},
+					{
+						"name": "Year",
+						"type": "INT32"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Salida_LocationsScripts')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ClaseDF",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Simpsons"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "LocationsScripts.parquet",
+						"folderPath": "Simpsons/LocationsScripts",
+						"fileSystem": "clasedf"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ClaseDF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/flow_peliculas')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Peliculas"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "peliculasentrada",
+								"type": "DatasetReference"
+							},
+							"name": "entradapeliculas"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "salida_peliculas",
+								"type": "DatasetReference"
+							},
+							"name": "salidapeliculas"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ExtraccionYear"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          movieId as integer,",
+						"          title as string,",
+						"          genres as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> entradapeliculas",
+						"entradapeliculas derive(Year = toInteger(trim(right(title, 6),'()')),",
+						"          title = toString(left(title, length(title)-6))) ~> ExtraccionYear",
+						"ExtraccionYear sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> salidapeliculas"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/peliculasentrada')]",
+				"[concat(variables('factoryId'), '/datasets/salida_peliculas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/flow_simpsons')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Simpsons"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Entrada_Characters",
+								"type": "DatasetReference"
+							},
+							"name": "entradacharacters"
+						},
+						{
+							"dataset": {
+								"referenceName": "Entrada_Episodes",
+								"type": "DatasetReference"
+							},
+							"name": "entradaepisodes"
+						},
+						{
+							"dataset": {
+								"referenceName": "Entrada_Locations",
+								"type": "DatasetReference"
+							},
+							"name": "entradalocations"
+						},
+						{
+							"dataset": {
+								"referenceName": "Entrada_Scripts",
+								"type": "DatasetReference"
+							},
+							"name": "entradascripts"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Salida_Characters",
+								"type": "DatasetReference"
+							},
+							"name": "salidacharacters"
+						},
+						{
+							"dataset": {
+								"referenceName": "Salida_EpisodesScripts",
+								"type": "DatasetReference"
+							},
+							"name": "salidaepisodesscripts"
+						},
+						{
+							"dataset": {
+								"referenceName": "Salida_LocationsScripts",
+								"type": "DatasetReference"
+							},
+							"name": "salidalocationsscripts"
+						}
+					],
+					"transformations": [
+						{
+							"name": "selectcharacters"
+						},
+						{
+							"name": "filternullgender"
+						},
+						{
+							"name": "selectepisodes"
+						},
+						{
+							"name": "selectlocations"
+						},
+						{
+							"name": "selectscripts"
+						},
+						{
+							"name": "joinepisodesscripts"
+						},
+						{
+							"name": "joinlocationsscripts"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          id as integer,",
+						"          name as string,",
+						"          normalized_name as string,",
+						"          gender as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> entradacharacters",
+						"source(output(",
+						"          id as integer,",
+						"          image_url as string,",
+						"          imdb_rating as float,",
+						"          imdb_votes as string,",
+						"          number_in_season as integer,",
+						"          number_in_series as integer,",
+						"          original_air_date as date,",
+						"          original_air_year as integer,",
+						"          production_code as string,",
+						"          season as integer,",
+						"          title as string,",
+						"          us_viewers_in_millions as string,",
+						"          video_url as string,",
+						"          views as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> entradaepisodes",
+						"source(output(",
+						"          id as integer,",
+						"          name as string,",
+						"          normalized_name as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> entradalocations",
+						"source(output(",
+						"          id as integer,",
+						"          episode_id as integer,",
+						"          number as integer,",
+						"          raw_text as string,",
+						"          timestamp_in_ms as integer,",
+						"          speaking_line as string,",
+						"          character_id as integer,",
+						"          location_id as integer,",
+						"          raw_character_text as string,",
+						"          raw_location_text as string,",
+						"          spoken_words as string,",
+						"          normalized_text as string,",
+						"          word_count as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> entradascripts",
+						"entradacharacters select(mapColumn(",
+						"          id,",
+						"          name = normalized_name,",
+						"          gender",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectcharacters",
+						"selectcharacters filter(gender!=\"Null\") ~> filternullgender",
+						"entradaepisodes select(mapColumn(",
+						"          id,",
+						"          imdb_rating,",
+						"          imdb_votes,",
+						"          number_in_season,",
+						"          number_in_series,",
+						"          original_air_date,",
+						"          original_air_year,",
+						"          season,",
+						"          title,",
+						"          views",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectepisodes",
+						"entradalocations select(mapColumn(",
+						"          id,",
+						"          name = normalized_name",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectlocations",
+						"entradascripts select(mapColumn(",
+						"          id,",
+						"          episode_id,",
+						"          number,",
+						"          raw_text,",
+						"          timestamp_in_ms,",
+						"          speaking_line,",
+						"          character_id,",
+						"          location_id,",
+						"          raw_character_text,",
+						"          raw_location_text,",
+						"          spoken_words",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectscripts",
+						"selectepisodes, selectscripts join(selectepisodes@id == episode_id,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinepisodesscripts",
+						"selectlocations, selectscripts join(selectlocations@id == location_id,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinlocationsscripts",
+						"filternullgender sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          movieId as integer,",
+						"          title as string,",
+						"          genres as string,",
+						"          Year as integer",
+						"     ),",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> salidacharacters",
+						"joinepisodesscripts sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          movieId as integer,",
+						"          title as string,",
+						"          genres as string,",
+						"          Year as integer",
+						"     ),",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> salidaepisodesscripts",
+						"joinlocationsscripts sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> salidalocationsscripts"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Entrada_Characters')]",
+				"[concat(variables('factoryId'), '/datasets/Entrada_Episodes')]",
+				"[concat(variables('factoryId'), '/datasets/Entrada_Locations')]",
+				"[concat(variables('factoryId'), '/datasets/Entrada_Scripts')]",
+				"[concat(variables('factoryId'), '/datasets/Salida_Characters')]",
+				"[concat(variables('factoryId'), '/datasets/Salida_EpisodesScripts')]",
+				"[concat(variables('factoryId'), '/datasets/Salida_LocationsScripts')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_peliculas')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "flow_peliculas",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "flow_peliculas",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"entradapeliculas": {},
+									"salidapeliculas": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Peliculas"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/flow_peliculas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_simpsons')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "flow_simpsons",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "flow_simpsons",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"entradacharacters": {},
+									"entradaepisodes": {},
+									"entradalocations": {},
+									"entradascripts": {},
+									"salidacharacters": {},
+									"salidaepisodesscripts": {},
+									"salidalocationsscripts": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Simpsons"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/flow_simpsons')]"
+			]
 		}
 	]
 }
